@@ -10,6 +10,7 @@ static const unsigned int gappoh    = gap;       /* horiz outer gap between wind
 static const unsigned int gappov    = gap;       /* vert outer gap between windows and screen edge */
 static const int sidepad            = gap;       /* horizontal padding for statusbar */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 static const int horizpadbar        = 96;       /* horizontal padding for statusbar */
@@ -48,8 +49,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class                 instance     title       tags mask     isfloating   monitor */
-	{ "Gnome-flashback",      NULL,       NULL,       1 << 8,            0,           NULL }
+	/* class                  instance      title               tags mask       isfloating      isterminal      noswallow       monitor */
+	{ "Gnome-flashback",      NULL,         NULL,               1 << 8,         1,              1,              -1,              0   },
+	{ NULL,                   NULL,         "Event Tester",     0,              1,              0,              1,              -1   }
 };
 
 /* layout(s) */
