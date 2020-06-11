@@ -209,7 +209,7 @@ static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
-static void togglefullscreen(const Arg *arg);
+static void fullscreen(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
@@ -340,6 +340,10 @@ applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
 {
 	int baseismin;
 	Monitor *m = c->mon;
+
+	// return 1 if layout is monocle
+	if (&monocle == c->mon->lt[c->mon->sellt]->arrange)
+		return 1;
 
 	/* set minimum possible */
 	*w = MAX(1, *w);
@@ -1387,6 +1391,11 @@ resizeclient(Client *c, int x, int y, int w, int h)
 		c->h = wc.height += c->bw * 2;
 		wc.border_width = 0;
 	}
+ 	if ((&monocle == c->mon->lt[c->mon->sellt]->arrange) && (!c->isfloating)) {
+ 		wc.border_width = 0;
+ 		c->w = wc.width += c->bw * 2;
+ 		c->h = wc.height += c->bw * 2;
+ 	}
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
 	XSync(dpy, False);
@@ -1591,16 +1600,20 @@ setfullscreen(Client *c, int fullscreen)
 	}
 }
 
-void togglefullscreen(const Arg *arg) {
-    if (!selmon->sel) {
-        return;
-    }
-    if (!selmon->sel->isfullscreen) {
-        setfullscreen(selmon->sel, 1);
-    }
-    else if (selmon->sel->isfullscreen) {
-        setfullscreen(selmon->sel, 0);
-    }
+
+Layout *last_layout;
+void
+fullscreen(const Arg *arg)
+{
+	if (selmon->showbar) {
+            setfullscreen(selmon->sel, 1);
+		for(last_layout = (Layout *)layouts; last_layout != selmon->lt[selmon->sellt]; last_layout++);
+		setlayout(&((Arg) { .v = &layouts[1] }));
+	} else {
+            setfullscreen(selmon->sel, 0);
+		setlayout(&((Arg) { .v = last_layout }));
+	}
+	togglebar(arg);
 }
 
 void
