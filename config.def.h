@@ -19,8 +19,8 @@ static const int indicatorv         = 2;        /* thickness of the indicators i
 static const char *fonts[]          = { "IBM 3270:size=13", "micon:size=13" };
 static const char dmenufont[]       = "IBM 3280:size=10";
 
-static const char col_bg[]          = "#26263A";
-static const char col_bg_f[]        = "#2E2E46";
+static const char col_bg[]          = "#050505";
+static const char col_bg_f[]        = "#151515";
 static const char col_br_f[]        = "#34344B";
 static const char col_fg[]          = "#bbbbbb";
 static const char col_fg_f[]        = "#eeeeee";
@@ -38,7 +38,7 @@ static const char *colors[][3]      = {
 	[SchemeNorm] = { col_fg, col_bg, col_bg },
 	[SchemeSel]  = { col_fg_f, col_bg_f, col_cyan },
 	[SchemeInd]  = { col_bg, col_bg, col_bg },
-	[SchemeInd_f] = { col_magenta, col_magenta, col_magenta }
+	[SchemeInd_f] = { col_fg_f, col_fg_f, col_fg_f }
 };
 
 /* tagging */
