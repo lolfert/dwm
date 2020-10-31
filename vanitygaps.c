@@ -63,6 +63,12 @@ defaultgaps(const Arg *arg)
 }
 
 void
+nogaps(const Arg *arg)
+{
+	setgaps(0, 0, 0, 0);
+}
+
+void
 incrgaps(const Arg *arg)
 {
 	setgaps(

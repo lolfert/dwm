@@ -30,13 +30,10 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 
-static const char col_cyan[]        = "#37BDB9";
-static const char col_magenta[]     = "#894BA4";
-
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_fg, col_bg, col_bg },
-	[SchemeSel]  = { col_fg_f, col_bg_f, col_cyan },
+	[SchemeSel]  = { col_fg_f, col_bg_f, col_bg_f },
 	[SchemeInd]  = { col_bg, col_bg, col_bg },
 	[SchemeInd_f] = { col_fg_f, col_fg_f, col_fg_f }
 };
@@ -50,7 +47,6 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                  instance      title               tags mask       isfloating      isterminal      noswallow       monitor */
-	{ "Gnome-flashback",      NULL,         NULL,               1 << 8,         1,              1,              -1,              0   },
 	{ NULL,                   NULL,         "Event Tester",     0,              1,              0,              1,              -1   }
 };
 
@@ -88,8 +84,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "termite", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb" };
+static const char *termcmd[]  = { "termite" };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -115,7 +111,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_equal,               incrigaps,              {.i = -2 } },
 	{ MODKEY|ControlMask,           XK_minus,               incrigaps,              {.i = +2 } },
 	{ MODKEY,                       XK_bracketleft,         defaultgaps,            {0} },
-	{ MODKEY,                       XK_bracketright,        defaultgaps,            {0} },
+	{ MODKEY,                       XK_bracketright,        nogaps,                 {0} },
 
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
