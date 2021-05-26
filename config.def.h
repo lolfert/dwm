@@ -16,8 +16,8 @@ static const int topbar             = 0;        /* 0 means bottom bar */
 static const int horizpadbar        = 96;       /* horizontal padding for statusbar */
 static const int vertpadbar         = 36;       /* vertical padding for statusbar */
 static const int indicatorv         = 2;        /* thickness of the indicators in bar */
-static const char *fonts[]          = { "IBM 3270:size=13", "micon:size=13" };
-static const char dmenufont[]       = "IBM 3280:size=10";
+static const char *fonts[]          = { "Liberation Mono:size=13", "micon:size=13" };
+static const char dmenufont[]       = "Liberation Mono:size=10";
 
 static const char col_bg[]          = "#050505";
 static const char col_bg_f[]        = "#151515";
@@ -84,8 +84,11 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb" };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", NULL };
+
 static const char *termcmd[]  = { "termite" };
+
+#include "selfrestart.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -103,6 +106,8 @@ static Key keys[] = {
 
 	{ MODKEY|ShiftMask,             XK_q,                   killclient,             {0} },
 	{ MODKEY|ShiftMask,             XK_Escape,              quit,                   {0} },
+        { MODKEY|ShiftMask,             XK_r,   	        self_restart,   {0} },
+
 
 	{ MODKEY,                       XK_equal,               incrgaps,               {.i = -2 } },
 	{ MODKEY,                       XK_minus,               incrgaps,               {.i = +2 } },
@@ -158,4 +163,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
